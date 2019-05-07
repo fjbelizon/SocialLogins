@@ -1,0 +1,27 @@
+﻿@inject IAuthenticationSchemeProvider SchemeProvider
+@using Microsoft.AspNetCore.Authentication
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Login with social networks</h3>
+        <h5>Select a social network login:</h5>
+        <div class="btn-group-vertical" role="group">
+            @foreach (var provider in await SchemeProvider.GetRequestHandlerSchemesAsync())
+            {
+            <a class="btn btn-lg btn-default" asp-route-returnUrl="@Context.Request.Query["returnUrl"]" asp-route-provider="@provider.Name" asp-action="Login">
+                @if (@provider.Name.ToLower() == "microsoft")
+                {
+                    <i class="fa fa-windows"></i> @provider.Name
+                }
+                else
+                {
+                    <i class="fa fa-@provider.Name.ToLower()"></i> @provider.Name
+                }
+            </a>
+            }
+        </div>
+    </div>
+</div>
